@@ -1,9 +1,8 @@
 package kotlinorm.com.example.ktor.plugins
 
-import com.kotlinorm.kronosSpringDemo.pojos.User
+import kotlinorm.com.example.ktor.pojos.User
 import io.ktor.server.application.*
 import io.ktor.server.html.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.html.body
 import kotlinx.html.h1

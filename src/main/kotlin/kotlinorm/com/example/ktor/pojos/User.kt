@@ -1,4 +1,4 @@
-package com.kotlinorm.kronosSpringDemo.pojos
+package kotlinorm.com.example.ktor.pojos
 
 import com.kotlinorm.annotations.PrimaryKey
 import com.kotlinorm.annotations.Table
