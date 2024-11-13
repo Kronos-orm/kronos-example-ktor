@@ -1,4 +1,4 @@
-# kronos-example-spring-boot
+# kronos-example-ktor
 
 -------------------------
 

@@ -5,7 +5,6 @@ import com.kotlinorm.KronosBasicWrapper
 import com.kotlinorm.beans.config.LineHumpNamingStrategy
 import io.ktor.server.application.*
 import kotlinorm.com.example.ktor.plugins.configureRouting
-import kotlinorm.com.plugins.*
 import org.apache.commons.dbcp2.BasicDataSource
 
 val ds = BasicDataSource().apply {
