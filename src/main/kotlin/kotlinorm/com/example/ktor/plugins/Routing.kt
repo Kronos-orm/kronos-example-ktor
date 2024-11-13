@@ -1,4 +1,4 @@
-package kotlinorm.com.plugins
+package kotlinorm.com.example.ktor.plugins
 
 import com.kotlinorm.kronosSpringDemo.pojos.User
 import io.ktor.server.application.*
