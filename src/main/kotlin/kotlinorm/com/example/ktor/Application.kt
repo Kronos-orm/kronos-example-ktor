@@ -2,7 +2,6 @@ package kotlinorm.com.example.ktor
 
 import com.kotlinorm.Kronos
 import com.kotlinorm.KronosBasicWrapper
-import com.kotlinorm.beans.config.LineHumpNamingStrategy
 import io.ktor.server.application.*
 import kotlinorm.com.example.ktor.plugins.configureRouting
 import org.apache.commons.dbcp2.BasicDataSource
@@ -13,15 +12,16 @@ val ds = BasicDataSource().apply {
     password = "**********"
 }
 
+
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
+}
+
+fun Application.module() {
     Kronos.init {
         dataSource = { KronosBasicWrapper(ds) }
         fieldNamingStrategy = lineHumpNamingStrategy
         tableNamingStrategy = lineHumpNamingStrategy
     }
-}
-
-fun Application.module() {
     configureRouting()
 }

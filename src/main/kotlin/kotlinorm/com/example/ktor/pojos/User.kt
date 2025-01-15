@@ -7,7 +7,8 @@ import com.kotlinorm.interfaces.KPojo
 @Table("tb_user")
 data class User(
     @PrimaryKey(identity = true)
-    val id: Int? = null,
-    val name: String? = null, // name for user
-    val age: Int? = null,
+    var id: Int? = null,
+    var name: String? = null, // name for user
+    var age: Int? = null,
+    var version: Int = 1
 ) : KPojo
