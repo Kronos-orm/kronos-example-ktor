@@ -15,10 +15,10 @@ val ds = BasicDataSource().apply {
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
-    Kronos.apply {
+    Kronos.init {
         dataSource = { KronosBasicWrapper(ds) }
-        fieldNamingStrategy = LineHumpNamingStrategy
-        tableNamingStrategy = LineHumpNamingStrategy
+        fieldNamingStrategy = lineHumpNamingStrategy
+        tableNamingStrategy = lineHumpNamingStrategy
     }
 }
 
