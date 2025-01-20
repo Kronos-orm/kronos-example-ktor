@@ -4,7 +4,11 @@
 
 English | [简体中文](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/README-zh_CN.md)
 
-This is a sample project based on Ktor + Kronos ORM + JDK 11 + Gradle + Kotlin 2.0.0(2.0.20 is about to be adapted.)
+This is a simple user management system based on `Ktor` + `Kronos ORM` + `JDK 11` + `Gradle` + `Kotlin 2.1.0`.
+
+The website uses the Mysql database to store user information and provides functions such as adding, deleting, modifying, and querying users, as well as pagination queries.
+
+In the project, Kronos-ORM is perfectly integrated with Ktor, and the front-end pages are built using Html DSL.
 
 If you would like to learn more about Kronos, please visit [Kronos](https://www.kotlinorm.com/).
 
@@ -14,16 +18,16 @@ If you would like to learn more about Kronos, please visit [Kronos](https://www.
 
 ```kts
 dependencies {
-    implementation("com.kotlinorm:kronos-core:0.1.0-SNAPSHOT")
-    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.1.0-SNAPSHOT")
+    implementation("com.kotlinorm:kronos-core:0.0.1")
+    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.0.1")
 }
 ```
 
-**2. Add Kotlin compiler plugin**
+**2. Add Kronos compiler plugin**
 
 ```kts
 plugins {
-    id("com.kotlinorm.kronos-gradle-plugin") version "0.1.0"
+    id("com.kotlinorm.kronos-gradle-plugin") version "0.0.1"
 }
 ```
 
@@ -36,27 +40,65 @@ You can also replace it with another wrapper or customize the wrapper.
 import com.kotlinorm.Kronos
 import com.kotlinorm.KronosBasicWrapper
 
-val ds = BasicDataSource().apply {
-    url = "jdbc:mysql://localhost:3306/kotlinorm"
-    username = "root"
-    password = "**********"
+val pool by lazy {
+    KronosBasicWrapper(BasicDataSource().apply {
+        url = "jdbc:mysql://localhost:3306/kotlinorm"
+        username = "root"
+        password = "**********"
+    })
 }
 
 fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
-    Kronos.dataSource = { KronosBasicWrapper(ds) }
+}
+
+fun Application.module() {
+    Kronos.init {
+        dataSource = { pool }
+        fieldNamingStrategy = lineHumpNamingStrategy
+        tableNamingStrategy = lineHumpNamingStrategy
+        // Auto synchronize the table structure from the entity class when the application starts
+        dataSource.table.syncTable<User>()
+    }
+    configureRouting()
 }
 ```
 
-## Run the project
+## Project structure
 
-After running the project, visit the following URL to view the results:
+```
+├── src
+│   └── main
+│       ├── kotlin
+│       │   └── kotlinorm.com.example.ktor
+│       │       ├── plugins
+│       │       │   └── Routing.kt
+│       │       ├── pojos
+│       │       │   └── User.kt
+│       │       └── Application.kt
+│       ├──resources
+│       │  ├── static
+│       │  │   └── styles.css
+│       │  ├─── application.yaml
+│       │  └─── logback.xml
+│       └── test
+│           └── kotlin
+│               └── kotlinorm.com.example.ktor
+│                   └── ApplicationTest.kt
+├── build.gradle.kts
+├── settings.gradle.kts
+└── gradle.properties
+```
+
+## Running the project
+
+After program startup, you can access the following URL in the browser:
 
 ```
 http://localhost:8081
 ```
 
-If the interface returns the results shown below, Kronos has run successfully and the compiler plugin is working
-properly.
+## Screenshots
 
-![screen](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/screenshot/img.png?raw=true)
+![screen](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/screenshot/user-list.png?raw=true)
+![screen](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/screenshot/edit-user.png?raw=true)
