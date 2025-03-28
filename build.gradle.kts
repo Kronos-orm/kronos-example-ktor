@@ -4,15 +4,25 @@ val kotlin_version: String by project
 val kotlinx_html_version: String by project
 val logback_version: String by project
 
+allprojects {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "Central Portal Snapshots"
+            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+        }
+    }
+}
+
 plugins {
     kotlin("jvm") version "2.1.0"
     id("io.ktor.plugin") version "3.0.1"
-    id("com.kotlinorm.kronos-gradle-plugin") version "0.0.1"
+    id("com.kotlinorm.kronos-gradle-plugin") version "0.0.2-SNAPSHOT" apply true
 }
 
 dependencies {
-    implementation("com.kotlinorm:kronos-core:0.0.1")
-    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.0.1")
+    implementation("com.kotlinorm:kronos-core:0.0.2-SNAPSHOT")
+    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.0.2-SNAPSHOT")
     implementation("org.apache.commons:commons-dbcp2:2.12.0")
     implementation("com.mysql:mysql-connector-j:8.4.0")
     implementation("io.ktor:ktor-server-core-jvm")
@@ -26,7 +36,7 @@ dependencies {
 }
 
 group = "kotlinorm.com"
-version = "0.0.1"
+version = "0.0.2-SNAPSHOT"
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
