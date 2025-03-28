@@ -4,7 +4,7 @@
 
 [English](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/README.md) | 简体中文
 
-这是一个基于`Ktor` + `Kronos ORM` + `JDK 11` + `Gradle` + `Kotlin 2.1.0`的简单用户管理系统。
+这是一个基于`Ktor` + `Kronos ORM` + `JDK 17` + `Gradle` + `Kotlin 2.1.0`的简单用户管理系统。
 
 该网站使用MySQL数据库存储用户信息，并提供添加、删除、修改和查询用户等功能，以及分页查询。
 
@@ -17,17 +17,39 @@
 **1. 添加Kronos依赖**
 
 ```kts
+// build.gradle.kts
+repositories {
+    mavenCentral()
+    maven {
+        name = "Central Portal Snapshots"
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
+}
+
 dependencies {
-    implementation("com.kotlinorm:kronos-core:0.0.1")
-    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.0.1")
+    implementation("com.kotlinorm:kronos-core:0.0.2-SNAPSHOT")
+    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.0.2-SNAPSHOT")
 }
 ```
 
 **2. 添加Kronos编译器插件**
 
-```kts
+```kotlin
+// settings.gradle.kts
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        maven {
+            name = "Central Portal Snapshots"
+            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+        }
+    }
+}
+
+// build.gradle.kts
 plugins {
-    id("com.kotlinorm.kronos-gradle-plugin") version "0.0.1"
+    id("com.kotlinorm.kronos-gradle-plugin") version "0.0.2-SNAPSHOT"
 }
 ```
 

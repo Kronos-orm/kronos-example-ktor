@@ -4,7 +4,7 @@
 
 English | [简体中文](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/README-zh_CN.md)
 
-This is a simple user management system based on `Ktor` + `Kronos ORM` + `JDK 11` + `Gradle` + `Kotlin 2.1.0`.
+This is a simple user management system based on `Ktor` + `Kronos ORM` + `JDK 17` + `Gradle` + `Kotlin 2.1.0`.
 
 The website uses the Mysql database to store user information and provides functions such as adding, deleting, modifying, and querying users, as well as pagination queries.
 
@@ -17,17 +17,39 @@ If you would like to learn more about Kronos, please visit [Kronos](https://www.
 **1. Add Kronos dependency**
 
 ```kts
+// build.gradle.kts
+repositories {
+    mavenCentral()
+    maven {
+        name = "Central Portal Snapshots"
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
+}
+
 dependencies {
-    implementation("com.kotlinorm:kronos-core:0.0.1")
-    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.0.1")
+    implementation("com.kotlinorm:kronos-core:0.0.2-SNAPSHOT")
+    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.0.2-SNAPSHOT")
 }
 ```
 
 **2. Add Kronos compiler plugin**
 
-```kts
+```kotlin
+// settings.gradle.kts
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+        maven {
+            name = "Central Portal Snapshots"
+            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+        }
+    }
+}
+
+// build.gradle.kts
 plugins {
-    id("com.kotlinorm.kronos-gradle-plugin") version "0.0.1"
+    id("com.kotlinorm.kronos-gradle-plugin") version "0.0.2-SNAPSHOT"
 }
 ```
 
