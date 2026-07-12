@@ -1,42 +1,39 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val kotlin_version: String by project
-val kotlinx_html_version: String by project
-val logback_version: String by project
+val kotlinVersion = providers.gradleProperty("kotlin_version").get()
+val kotlinxHtmlVersion = providers.gradleProperty("kotlinx_html_version").get()
+val logbackVersion = providers.gradleProperty("logback_version").get()
 
 allprojects {
     repositories {
+        mavenLocal()
         mavenCentral()
-        maven {
-            name = "Central Portal Snapshots"
-            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
-        }
     }
 }
 
 plugins {
-    kotlin("jvm") version "2.1.0"
+    kotlin("jvm") version "2.4.0"
     id("io.ktor.plugin") version "3.0.1"
-    id("com.kotlinorm.kronos-gradle-plugin") version "0.0.2-SNAPSHOT" apply true
+    id("com.kotlinorm.kronos-gradle-plugin") version "0.2.1"
 }
 
 dependencies {
-    implementation("com.kotlinorm:kronos-core:0.0.2-SNAPSHOT")
-    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.0.2-SNAPSHOT")
+    implementation("com.kotlinorm:kronos-core:0.2.1")
+    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.2.1")
     implementation("org.apache.commons:commons-dbcp2:2.12.0")
     implementation("com.mysql:mysql-connector-j:8.4.0")
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-html-builder-jvm")
-    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinx_html_version")
+    implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:$kotlinxHtmlVersion")
     implementation("io.ktor:ktor-server-netty-jvm")
-    implementation("ch.qos.logback:logback-classic:$logback_version")
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("io.ktor:ktor-server-config-yaml")
     testImplementation("io.ktor:ktor-server-test-host-jvm")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion")
 }
 
 group = "kotlinorm.com"
-version = "0.0.2-SNAPSHOT"
+version = "0.2.1"
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")

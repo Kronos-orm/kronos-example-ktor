@@ -4,7 +4,7 @@
 
 English | [简体中文](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/README-zh_CN.md)
 
-This is a simple user management system based on `Ktor` + `Kronos ORM` + `JDK 17` + `Gradle` + `Kotlin 2.1.0`.
+This is a simple user management system based on `Ktor` + `Kronos ORM` + `JDK 17` + `Gradle` + `Kotlin 2.4.0`.
 
 The website uses the Mysql database to store user information and provides functions such as adding, deleting, modifying, and querying users, as well as pagination queries.
 
@@ -19,16 +19,13 @@ If you would like to learn more about Kronos, please visit [Kronos](https://www.
 ```kts
 // build.gradle.kts
 repositories {
+    mavenLocal()
     mavenCentral()
-    maven {
-        name = "Central Portal Snapshots"
-        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
-    }
 }
 
 dependencies {
-    implementation("com.kotlinorm:kronos-core:0.0.2-SNAPSHOT")
-    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.0.2-SNAPSHOT")
+    implementation("com.kotlinorm:kronos-core:0.2.1")
+    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.2.1")
 }
 ```
 
@@ -38,18 +35,15 @@ dependencies {
 // settings.gradle.kts
 pluginManagement {
     repositories {
+        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
-        maven {
-            name = "Central Portal Snapshots"
-            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
-        }
     }
 }
 
 // build.gradle.kts
 plugins {
-    id("com.kotlinorm.kronos-gradle-plugin") version "0.0.2-SNAPSHOT"
+    id("com.kotlinorm.kronos-gradle-plugin") version "0.2.1"
 }
 ```
 
@@ -60,13 +54,14 @@ You can also replace it with another wrapper or customize the wrapper.
 
 ```kotlin
 import com.kotlinorm.Kronos
-import com.kotlinorm.KronosBasicWrapper
+import com.kotlinorm.wrappers.KronosJdbcWrapper
 
 val pool by lazy {
-    KronosBasicWrapper(BasicDataSource().apply {
-        url = "jdbc:mysql://localhost:3306/kotlinorm"
-        username = "root"
-        password = "**********"
+    KronosJdbcWrapper(BasicDataSource().apply {
+        driverClassName = System.getenv("MYSQL_DRIVER") ?: "com.mysql.cj.jdbc.Driver"
+        url = System.getenv("MYSQL_JDBC_URL") ?: "jdbc:mysql://localhost:3306/kronos_testing"
+        username = System.getenv("MYSQL_USERNAME") ?: "kronos"
+        password = System.getenv("MYSQL_PASSWORD") ?: "kronos"
     })
 }
 
@@ -75,13 +70,13 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    Kronos.init {
+    with(Kronos) {
         dataSource = { pool }
         fieldNamingStrategy = lineHumpNamingStrategy
         tableNamingStrategy = lineHumpNamingStrategy
-        // Auto synchronize the table structure from the entity class when the application starts
-        dataSource.table.syncTable<User>()
     }
+    // Auto synchronize the table structure from the entity class when the application starts
+    pool.table.syncTable<User>()
     configureRouting()
 }
 ```

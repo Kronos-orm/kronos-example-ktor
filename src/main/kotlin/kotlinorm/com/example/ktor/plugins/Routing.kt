@@ -51,7 +51,7 @@ fun Application.configureRouting() {
                     val pageIndex = call.parameters["pageIndex"]?.toIntOrNull() ?: 1
                     val pageSize = 10
                     val (total, users) = User().select().orderBy { it.id }
-                        .page(pageIndex, pageSize).withTotal().queryList()
+                        .page(pageIndex, pageSize).withTotal().toList()
                     body {
                         h1 { +"User List" }
                         form(action = "/users/create", method = FormMethod.post) {
@@ -99,7 +99,7 @@ fun Application.configureRouting() {
             }
             get("/edit/{id}") {
                 val id = call.parameters["id"]?.toIntOrNull() ?: return@get
-                val user = User(id = id).select().queryOne()
+                val user = User(id = id).select().where().first()
                 call.respondHtml {
                     head {
                         link(rel = "stylesheet", href = "/static/styles.css")

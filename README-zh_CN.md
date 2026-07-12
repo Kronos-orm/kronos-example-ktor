@@ -4,7 +4,7 @@
 
 [English](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/README.md) | 简体中文
 
-这是一个基于`Ktor` + `Kronos ORM` + `JDK 17` + `Gradle` + `Kotlin 2.1.0`的简单用户管理系统。
+这是一个基于`Ktor` + `Kronos ORM` + `JDK 17` + `Gradle` + `Kotlin 2.4.0`的简单用户管理系统。
 
 该网站使用MySQL数据库存储用户信息，并提供添加、删除、修改和查询用户等功能，以及分页查询。
 
@@ -19,16 +19,13 @@
 ```kts
 // build.gradle.kts
 repositories {
+    mavenLocal()
     mavenCentral()
-    maven {
-        name = "Central Portal Snapshots"
-        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
-    }
 }
 
 dependencies {
-    implementation("com.kotlinorm:kronos-core:0.0.2-SNAPSHOT")
-    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.0.2-SNAPSHOT")
+    implementation("com.kotlinorm:kronos-core:0.2.1")
+    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.2.1")
 }
 ```
 
@@ -38,18 +35,15 @@ dependencies {
 // settings.gradle.kts
 pluginManagement {
     repositories {
+        mavenLocal()
         mavenCentral()
         gradlePluginPortal()
-        maven {
-            name = "Central Portal Snapshots"
-            url = uri("https://central.sonatype.com/repository/maven-snapshots/")
-        }
     }
 }
 
 // build.gradle.kts
 plugins {
-    id("com.kotlinorm.kronos-gradle-plugin") version "0.0.2-SNAPSHOT"
+    id("com.kotlinorm.kronos-gradle-plugin") version "0.2.1"
 }
 ```
 
@@ -59,13 +53,14 @@ plugins {
 
 ```kotlin
 import com.kotlinorm.Kronos
-import com.kotlinorm.KronosBasicWrapper
+import com.kotlinorm.wrappers.KronosJdbcWrapper
 
 val pool by lazy {
-    KronosBasicWrapper(BasicDataSource().apply {
-        url = "jdbc:mysql://localhost:3306/kotlinorm"
-        username = "root"
-        password = "**********"
+    KronosJdbcWrapper(BasicDataSource().apply {
+        driverClassName = System.getenv("MYSQL_DRIVER") ?: "com.mysql.cj.jdbc.Driver"
+        url = System.getenv("MYSQL_JDBC_URL") ?: "jdbc:mysql://localhost:3306/kronos_testing"
+        username = System.getenv("MYSQL_USERNAME") ?: "kronos"
+        password = System.getenv("MYSQL_PASSWORD") ?: "kronos"
     })
 }
 
@@ -74,13 +69,13 @@ fun main(args: Array<String>) {
 }
 
 fun Application.module() {
-    Kronos.init {
+    with(Kronos) {
         dataSource = { pool }
         fieldNamingStrategy = lineHumpNamingStrategy
         tableNamingStrategy = lineHumpNamingStrategy
-        // 应用启动时，从实体类自动同步表结构
-        dataSource.table.syncTable<User>()
     }
+    // 应用启动时，从实体类自动同步表结构
+    pool.table.syncTable<User>()
     configureRouting()
 }
 ```
