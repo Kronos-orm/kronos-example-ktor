@@ -14,12 +14,12 @@ allprojects {
 plugins {
     kotlin("jvm") version "2.4.0"
     id("io.ktor.plugin") version "3.0.1"
-    id("com.kotlinorm.kronos-gradle-plugin") version "0.2.3"
+    id("com.kotlinorm.kronos-gradle-plugin") version "0.3.0"
 }
 
 dependencies {
-    implementation("com.kotlinorm:kronos-core:0.2.3")
-    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.2.3")
+    implementation("com.kotlinorm:kronos-core:0.3.0")
+    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.3.0")
     implementation("org.apache.commons:commons-dbcp2:2.12.0")
     implementation("com.mysql:mysql-connector-j:8.4.0")
     implementation("io.ktor:ktor-server-core-jvm")
@@ -33,7 +33,7 @@ dependencies {
 }
 
 group = "kotlinorm.com"
-version = "0.2.3"
+version = "0.3.0"
 
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")

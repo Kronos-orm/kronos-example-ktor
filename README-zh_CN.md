@@ -24,8 +24,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.kotlinorm:kronos-core:0.2.3")
-    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.2.3")
+    implementation("com.kotlinorm:kronos-core:0.3.0")
+    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.3.0")
 }
 ```
 
@@ -43,7 +43,7 @@ pluginManagement {
 
 // build.gradle.kts
 plugins {
-    id("com.kotlinorm.kronos-gradle-plugin") version "0.2.3"
+    id("com.kotlinorm.kronos-gradle-plugin") version "0.3.0"
 }
 ```
 
