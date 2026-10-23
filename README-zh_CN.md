@@ -4,7 +4,7 @@
 
 [English](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/README.md) | 简体中文
 
-这是一个基于`Ktor` + `Kronos ORM` + `JDK 17` + `Gradle` + `Kotlin 2.4.0`的简单用户管理系统。
+这是一个基于`Ktor` + `Kronos ORM` + `JDK 17` + `Gradle` + `Kotlin 2.4.21`的简单用户管理系统。
 
 该网站使用MySQL数据库存储用户信息，并提供添加、删除、修改和查询用户等功能，以及分页查询。
 
@@ -24,8 +24,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.kotlinorm:kronos-core:0.3.0")
-    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.3.0")
+    implementation("com.kotlinorm:kronos-core:0.4.0")
+    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.4.0")
 }
 ```
 
@@ -43,7 +43,7 @@ pluginManagement {
 
 // build.gradle.kts
 plugins {
-    id("com.kotlinorm.kronos-gradle-plugin") version "0.3.0"
+    id("com.kotlinorm.kronos-gradle-plugin") version "0.4.0"
 }
 ```
 
@@ -118,3 +118,12 @@ http://localhost:8081
 
 ![screen](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/screenshot/user-list.png?raw=true)
 ![screen](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/screenshot/edit-user.png?raw=true)
+
+## 日志
+
+Kronos 默认输出到控制台。通过统一开关关闭日志；重新开启时保留日志类型、路径和自定义工厂：
+
+```kotlin
+Kronos.logging.enabled = false
+Kronos.logging.enabled = true
+```

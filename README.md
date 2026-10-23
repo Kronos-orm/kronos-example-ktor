@@ -4,7 +4,7 @@
 
 English | [简体中文](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/README-zh_CN.md)
 
-This is a simple user management system based on `Ktor` + `Kronos ORM` + `JDK 17` + `Gradle` + `Kotlin 2.4.0`.
+This is a simple user management system based on `Ktor` + `Kronos ORM` + `JDK 17` + `Gradle` + `Kotlin 2.4.21`.
 
 The website uses the Mysql database to store user information and provides functions such as adding, deleting, modifying, and querying users, as well as pagination queries.
 
@@ -24,8 +24,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.kotlinorm:kronos-core:0.3.0")
-    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.3.0")
+    implementation("com.kotlinorm:kronos-core:0.4.0")
+    implementation("com.kotlinorm:kronos-jdbc-wrapper:0.4.0")
 }
 ```
 
@@ -43,7 +43,7 @@ pluginManagement {
 
 // build.gradle.kts
 plugins {
-    id("com.kotlinorm.kronos-gradle-plugin") version "0.3.0"
+    id("com.kotlinorm.kronos-gradle-plugin") version "0.4.0"
 }
 ```
 
@@ -119,3 +119,12 @@ http://localhost:8081
 
 ![screen](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/screenshot/user-list.png?raw=true)
 ![screen](https://github.com/Kronos-orm/kronos-example-ktor/blob/main/screenshot/edit-user.png?raw=true)
+
+## Logging
+
+Kronos logs to the console by default. Disable logging with the shared switch; re-enabling preserves the adapter, paths and custom factory:
+
+```kotlin
+Kronos.logging.enabled = false
+Kronos.logging.enabled = true
+```
